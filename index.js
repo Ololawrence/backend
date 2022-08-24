@@ -23,8 +23,6 @@ app.use(cors());
     next();
   });
 
-// require("./routes/auth.routes");
-// require("./app/routes/user.routes");
 
 app.use(authRoutes)
 app.use(userRoutes)
