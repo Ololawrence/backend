@@ -3,29 +3,29 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const db = require("./models");
 const Role = db.role;
-const dbConfig = require ('./config/config');
+const dbConfig = require("./config/config");
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
-// const products = require("./products");
+
 const uri = process.env.DB_URI;
 const port = process.env.PORT || 5000;
 require("dotenv").config();
 const app = express();
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-  app.use(function (req, res, next) {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
-  });
+app.use(function (req, res, next) {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
+});
 
-
-app.use(authRoutes)
-app.use(userRoutes)
+app.use(authRoutes);
+app.use(userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome our to online shop API...");
@@ -35,14 +35,14 @@ app.get("/products", (req, res) => {
   // res.send(products);
 });
 
-
-
-
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}` || `${uri}`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => {
     console.log("Successfully connect to MongoDB.");
     initial();
@@ -51,7 +51,7 @@ db.mongoose
     console.error("Connection error", err);
     process.exit();
   });
-  
+
 function initial() {
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {

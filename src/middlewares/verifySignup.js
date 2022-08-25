@@ -2,7 +2,7 @@ const db = require("../models");
 const ROLES = db.ROLES;
 const User = db.user;
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
+function checkDuplicateUsernameOrEmail (req, res, next)  {
   const { username, email } = req.body;
   // find by username
   User.findOne({username}).exec((err, user) => {
@@ -33,7 +33,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
   // find by email
 };
 
-checkRolesExisted = (req, res, next) => {
+function checkRolesExisted (req, res, next)  {
   if (req.body.roles) {
     for (let i = 0; i < req.body.roles.length; i++) {
       if (!ROLES.includes(req.body.roles[i])) {

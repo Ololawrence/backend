@@ -5,13 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "devstart": "NODE_ENV=production node src/index.js",
+    "start": "NODE_ENV=production npm run build && node dist/index.js",
+    "dev": "nodemon src/index.js",
+    "build": "rimraf dist && babel  ./src -d dist"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.13",
+    "@babel/preset-env": "^7.18.10",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -22,6 +27,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "rimraf": "^3.0.2"
   }
 }

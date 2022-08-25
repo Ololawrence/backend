@@ -1,7 +1,8 @@
-const db = require("../models");
+const db = require("../models/index");
 const User = db.user;
 const Role = db.role;
-verifyToken = (req, res, next) => {
+
+function verifyToken (req, res, next) {
   let token = req.headers["x-access-token"];
   if (!token) {
     return res.status(403).json({ message: "No token provided!" });
@@ -16,7 +17,7 @@ verifyToken = (req, res, next) => {
 };
 
 
-isAdmin = (req, res, next) => {
+function isAdmin  (req, res, next) {
   User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).json({ message: err });
@@ -43,7 +44,7 @@ isAdmin = (req, res, next) => {
     );
   });
 };
-isModerator = (req, res, next) => {
+function isModerator (req, res, next)  {
   User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).json({ message: err });
